@@ -3,8 +3,8 @@
 namespace app\Controllers;
 
 use App\Model\Customer;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class WelcomeController extends Controller
 {
@@ -15,7 +15,7 @@ class WelcomeController extends Controller
         $this->renderer = $renderer;
     }
 
-    public function dispatch(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function dispatch(Request $request, Response $response, array $args)
     {
         $customer = new Customer();
         $data = $customer->getOrderById(1);

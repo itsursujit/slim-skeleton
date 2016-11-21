@@ -1,4 +1,4 @@
-# Slim Framework 3 Skeleton Application
+# MVC Approach on Slim Framework 3 
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
 
@@ -6,21 +6,54 @@ This skeleton application was built for Composer. This makes setting up a new Sl
 
 ## Install the Application
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+Download Zip or Clone the repository to your local. Update the dependencies using
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+    composer update
 
 * Point your virtual host document root to your new application's `public/` directory.
 * Ensure `logs/` is web writeable.
 
-To run the application in development, you can also run this command. 
+## Folder Structure
 
-	php composer.phar start
+ **Config Directory** holds the configuration for the application along with autoloading classes, db credentials
+ **Controllers Directory** has the controllers required to act as a middleware between request, logic and response
+ **Models Directory** has all the business logic. Implemented from Libraries/Model.php
+ **Routes/route.php** provides the routing system. You can add route in this file
+ **Views Directory** holds all the presentation related files.
+ 
+### Example: Controller
 
-Run this command to run the test suite
+    <?php
+       
+    namespace app\Controllers;
+   
+    use App\Model\Customer;
+    use Slim\Http\Request;
+    use Slim\Http\Response;
+    
+    class WelcomeController extends Controller
+    {
+        public $renderer;
+        
+        public function __construct($renderer)
+        {
+            $this->renderer = $renderer;
+        }
+        
+        public function dispatch(Request $request, Response $response, array $args)
+        {
+            $customer = new Customer();
+            $data = $customer->getOrderById(1);
+            $this->renderer->render($response, 'welcome/index.phtml', $data);
+        }
+    }
 
-	php composer.phar test
+ 
+### Example: Routing
 
-That's it! Now go build something cool.
+     <?php
+     
+     use app\Libraries\Route;
+     
+     Route::get('/getorder/orderid/{id}', 'OrderController:getOrder');
+     Route::get('/cancelorder/orderid/{id}', 'OrderController:cancelOrder');

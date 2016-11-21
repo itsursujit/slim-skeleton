@@ -1,7 +1,7 @@
 <?php
 
 namespace app\Libraries;
-
+use App\Libraries\Database;
 use Slim\Http\Response;
 
 class Model extends Database
